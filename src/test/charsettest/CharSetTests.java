@@ -1,4 +1,4 @@
-package api;
+package src.test.charsettest;
 
 import java.nio.charset.Charset;
 

@@ -1,6 +1,4 @@
-package api;
-/* Java 1.8 샘플 코드 */
-
+package src.api.emedi;
 
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
@@ -9,10 +7,13 @@ import java.net.URLEncoder;
 import java.io.BufferedReader;
 import java.io.IOException;
 
+
+// https://www.data.go.kr/data/15075057/openapi.do 
+// 공공데이터센터, e약은요 api 활용부입니다.
 public class ApiExplorer {
     public static void main(String[] args) throws IOException {
         StringBuilder urlBuilder = new StringBuilder("http://apis.data.go.kr/1471000/DrbEasyDrugInfoService/getDrbEasyDrugList"); /*URL*/
-        urlBuilder.append("?" + URLEncoder.encode("serviceKey","UTF-8") + "=BM96AoERp9hq3yT0roMP1evCghQNawvYRjr04TB%2BMDH%2F9dI7ltgkHQf1X%2BaIcPMB6G4QLeO6Slyv3vlxD6Ee%2Fg%3D%3D"); /*Service Key*/
+        urlBuilder.append("?" + URLEncoder.encode("serviceKey","UTF-8") + ""); /*Service Key*/
         urlBuilder.append("&" + URLEncoder.encode("pageNo","UTF-8") + "=" + URLEncoder.encode("1", "UTF-8")); /*페이지번호*/
         urlBuilder.append("&" + URLEncoder.encode("numOfRows","UTF-8") + "=" + URLEncoder.encode("3", "UTF-8")); /*한 페이지 결과 수*/
         urlBuilder.append("&" + URLEncoder.encode("entpName","UTF-8") + "=" + URLEncoder.encode("", "UTF-8")); /*업체명*/

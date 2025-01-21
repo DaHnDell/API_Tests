@@ -1,4 +1,4 @@
-package api;
+package src.api;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -18,7 +18,7 @@ import org.xml.sax.InputSource;
 public class FoodSafetyApiExample {
     public static void main(String[] args) throws IOException {
         // API 요청 변수 설정
-        String keyId = "286a3e3b38cf4050b678"; // API 인증키
+        String keyId = ""; // API 인증키
         String serviceId = "C003"; // 서비스 ID
         String dataType = "xml"; // 응답 데이터 형식
         String startIdx = "1"; // 요청 시작 위치
@@ -81,16 +81,17 @@ public class FoodSafetyApiExample {
                         Node rowNode = rowList.item(i);
                         if (rowNode.getNodeType() == Node.ELEMENT_NODE) {
                             Element rowElement = (Element) rowNode;
-
+                            System.out.println("========================================================");
                             // 각 row에서 품목명 정보 출력
                             String productName = getTagValue("PRDLST_NM", rowElement);
                             System.out.println("품목명: " + productName);
-
+                            
                             // 추가 정보 출력 (예: 제조사, 유통기한 등)
                             String company = getTagValue("BSSH_NM", rowElement);
                             String expiryDate = getTagValue("POG_DAYCNT", rowElement);
                             System.out.println("제조사: " + company);
                             System.out.println("유통기한: " + expiryDate);
+                            System.out.println("========================================================");
                         }
                     }
                 }
