@@ -16,14 +16,17 @@ import org.w3c.dom.Element;
 import org.xml.sax.InputSource;
 
 public class FoodSafetyApiExample {
+    // 건강기능식품 품목제조신고(원재료)
+    //(https://www.foodsafetykorea.go.kr/api/newDatasetDetail.do)
+
     public static void main(String[] args) throws IOException {
         // API 요청 변수 설정
-        String keyId = ""; // API 인증키
+        String keyId = "286a3e3b38cf4050b678"; // API 인증키
         String serviceId = "C003"; // 서비스 ID
         String dataType = "xml"; // 응답 데이터 형식
         String startIdx = "1"; // 요청 시작 위치
         String endIdx = "5"; // 요청 종료 위치
-        String itemName = "젤리"; // 검색할 품목명
+        String itemName = "알"; // 검색할 품목명
         String companyName = ""; // 예시로, 업체명을 넣을 수 있음
 
         // 품목명 URL 인코딩
@@ -89,8 +92,16 @@ public class FoodSafetyApiExample {
                             // 추가 정보 출력 (예: 제조사, 유통기한 등)
                             String company = getTagValue("BSSH_NM", rowElement);
                             String expiryDate = getTagValue("POG_DAYCNT", rowElement);
+                            String primary = getTagValue("PRIMARY_FNCLTY", rowElement);
+                            String notice = getTagValue("IFTKN_ATNT_MATR_CN", rowElement);
+                            String keep = getTagValue("CSTDY_MTHD", rowElement);
+                            String raw = getTagValue("RAWMTRL", rowElement);
                             System.out.println("제조사: " + company);
                             System.out.println("유통기한: " + expiryDate);
+                            System.out.println("기능성 : " + primary);
+                            System.out.println("섭취시 주의사항 : " + notice);
+                            System.out.println("보관방법 : " + keep);
+                            System.out.println("원재료 : " + raw);
                             System.out.println("========================================================");
                         }
                     }
