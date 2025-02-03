@@ -25,8 +25,8 @@ public class FoodSafetyApiExample {
         String serviceId = "C003"; // 서비스 ID
         String dataType = "xml"; // 응답 데이터 형식
         String startIdx = "1"; // 요청 시작 위치
-        String endIdx = "5"; // 요청 종료 위치
-        String itemName = "알"; // 검색할 품목명
+        String endIdx = "10"; // 요청 종료 위치 // 검색 결과 양 반환
+        String itemName = "비타민"; // 검색할 품목명 
         String companyName = ""; // 예시로, 업체명을 넣을 수 있음
 
         // 품목명 URL 인코딩
