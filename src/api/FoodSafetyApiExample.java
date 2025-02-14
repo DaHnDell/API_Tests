@@ -25,8 +25,8 @@ public class FoodSafetyApiExample {
         String serviceId = "C003"; // 서비스 ID
         String dataType = "xml"; // 응답 데이터 형식
         String startIdx = "1"; // 요청 시작 위치
-        String endIdx = "10"; // 요청 종료 위치 // 검색 결과 양 반환
-        String itemName = "비타민"; // 검색할 품목명 
+        String endIdx = "15"; // 요청 종료 위치 // 검색 결과 양 반환
+        String itemName = "칼슘"; // 검색할 품목명 
         String companyName = ""; // 예시로, 업체명을 넣을 수 있음
 
         // 품목명 URL 인코딩
@@ -95,7 +95,7 @@ public class FoodSafetyApiExample {
                             String primary = getTagValue("PRIMARY_FNCLTY", rowElement);
                             String notice = getTagValue("IFTKN_ATNT_MATR_CN", rowElement);
                             String keep = getTagValue("CSTDY_MTHD", rowElement);
-                            String raw = getTagValue("RAWMTRL", rowElement);
+                            String raw = getTagValue("RAWMTRL_NM", rowElement);
                             System.out.println("제조사: " + company);
                             System.out.println("유통기한: " + expiryDate);
                             System.out.println("기능성 : " + primary);
