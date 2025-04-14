@@ -19,3 +19,8 @@ application {
         "-DDB_PASSWORD=${project.findProperty('dbPassword')}"
     ]
 }
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
+}
+
