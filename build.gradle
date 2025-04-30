@@ -13,6 +13,7 @@ dependencies {
     implementation 'org.mariadb.jdbc:mariadb-java-client:3.3.2'
     implementation 'org.slf4j:slf4j-api:2.0.9'                     // SLF4J API
     implementation 'ch.qos.logback:logback-classic:1.4.11'        // 실제 출력 구현체
+    implementation 'org.json:json:20231013'
 }
 
 application {

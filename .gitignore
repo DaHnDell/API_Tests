@@ -32,3 +32,4 @@ Thumbs.db
 .env
 *.key
 *.pem
+log.txt
