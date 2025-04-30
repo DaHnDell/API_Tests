@@ -28,7 +28,7 @@ public class crawlerApi {
         if (password == null) throw new RuntimeException("환경변수 DB_PASSWORD가 설정되지 않았습니다.");
 
         try (Connection conn = DriverManager.getConnection(url, user, password)) {
-            int latestRound = 100;
+            int latestRound = 10;
 
             for (int round = 1; round <= latestRound; round++) {
                 String link = "https://dhlottery.co.kr/gameResult.do?method=byWin&drwNo=" + round;
@@ -72,22 +72,28 @@ public class crawlerApi {
                 List<PrizeDetail> prizeDetails = new ArrayList<>();
                 List<WebElement> prizeRows = driver.findElements(By.cssSelector(".tbl_data tbody tr"));
 
-                for (int i = 1; i <= 5; i++) {
+                int availableRows = prizeRows.size();
+
+                for (int i = 1; i < availableRows && i <= 5; i++) {
                     List<WebElement> cols = prizeRows.get(i).findElements(By.tagName("td"));
-
+                
+                    if (cols.size() < 3) continue; // 혹시 td가 부족하면 스킵
+                
                     String rankStr = cols.get(0).getText().replaceAll("[^0-9]", "");
-                    String winnerStr = cols.get(1).getText().replaceAll("[^0-9]", "");
-                    String amountStr = cols.get(2).getText().replaceAll("[^0-9]", "");
-
+                    String winnerStr = cols.get(2).getText().replaceAll("[^0-9]", ""); 
+                    String amountStr = cols.get(3).getText().replaceAll("[^0-9]", "");
+                
                     int rank = Integer.parseInt(rankStr);
                     long winnerCount = Long.parseLong(winnerStr);
                     long prizeAmount = Long.parseLong(amountStr);
-
+                
                     prizeDetails.add(new PrizeDetail(rank, winnerCount, prizeAmount));
                 }
+                
 
                 // 저장
                 insertToDatabase(conn, round, winBalls, bonus, drawDate, winners, firstAmount, totalSales);
+                insertPrizeDetails(conn, round, prizeDetails);
 
                 // 출력 (상세 정보)
                 System.out.println("[" + round + "회차] 상세 등수별 정보:");
@@ -122,7 +128,7 @@ public class crawlerApi {
             pstmt.setLong(12, totalSales);
 
             pstmt.executeUpdate();
-            System.out.printf("%4d회차 저장 완료 ✅\n", round);
+            System.out.printf("%4d회차 저장 완료 \n", round);
 
         } catch (Exception e) {
             System.err.printf("[%d회차] 저장 실패: %s\n", round, e.getMessage());
@@ -146,4 +152,28 @@ public class crawlerApi {
             return String.format("%d등 | 당첨자: %,d명 | 당첨금: %,d원", rank, winnerCount, prizeAmount);
         }
     }
+
+    public static void insertPrizeDetails(Connection conn, int round, List<PrizeDetail> prizeDetails) {
+        String sql = """
+            INSERT INTO lotto_prize_details (round, rank, winner_count, prize_amount)
+            VALUES (?, ?, ?, ?)
+            ON DUPLICATE KEY UPDATE
+                winner_count = VALUES(winner_count),
+                prize_amount = VALUES(prize_amount)
+            """;
+    
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            for (PrizeDetail detail : prizeDetails) {
+                pstmt.setInt(1, round);
+                pstmt.setInt(2, detail.rank);
+                pstmt.setLong(3, detail.winnerCount);
+                pstmt.setLong(4, detail.prizeAmount);
+                pstmt.executeUpdate();
+            }
+            System.out.printf("[%d회차] 등수별 상세 정보 저장 완료 \n", round);
+        } catch (Exception e) {
+            System.err.printf("[%d회차] 상세 저장 실패: %s\n", round, e.getMessage());
+        }
+    }
+    
 }
