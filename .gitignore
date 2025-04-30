@@ -1,23 +1,34 @@
 # 개발 환경 설정 파일
-.vscode/settings.json
-.vscode
+.vscode/
+.idea/
+*.iml
 
 # 빌드 결과물
-build/
+/build/
 out/
+bin/
 
-# 의존성
+# 의존성 캐시
 .gradle/
 .gradle-cache/
-build/
 
-# 로그 파일
+# 로그 및 직렬화 파일
 *.log
+*.ser
 
 # 임시 파일
 *.tmp
 *.swp
 
-# 운영체제별 파일
+# 운영체제별 숨김파일
 .DS_Store
 Thumbs.db
+
+# 실행 파일 및 쉘 스크립트 (선택)
+*.bat
+*.sh
+
+# 환경변수 파일 (보안)
+.env
+*.key
+*.pem
