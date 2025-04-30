@@ -1,4 +1,4 @@
-package api;
+package api.healthfunctionproductinfo;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
