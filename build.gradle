@@ -11,20 +11,28 @@ dependencies {
     implementation 'org.seleniumhq.selenium:selenium-java:4.21.0'
     implementation 'io.github.bonigarcia:webdrivermanager:5.8.0'
     implementation 'org.mariadb.jdbc:mariadb-java-client:3.3.2'
-    implementation 'org.slf4j:slf4j-api:2.0.9'                     // SLF4J API
-    implementation 'ch.qos.logback:logback-classic:1.4.11'        // 실제 출력 구현체
-    implementation 'org.json:json:20231013'
+    implementation 'org.slf4j:slf4j-api:2.0.9'
+    implementation 'ch.qos.logback:logback-classic:1.4.11'
     implementation 'org.jsoup:jsoup:1.15.4'
+    implementation 'org.springframework.boot:spring-boot-starter-mail'
+    implementation 'com.squareup.okhttp3:okhttp:4.12.0'
+    implementation 'org.json:json:20240303'
 }
 
 application {
+    // 패키지+클래스명 정확히 기입 (예: api.selenium.CrawlerApi)
     mainClass = 'api.selenium.crawlerApi'
     applicationDefaultJvmArgs = [
         "-DDB_PASSWORD=${project.findProperty('dbPassword')}"
     ]
 }
 
+// bootRun 대신 run 태스크에 시스템 프로퍼티 전달
+tasks.named('run') {
+    systemProperty "mail.username", project.findProperty("mail.username") ?: ""
+    systemProperty "mail.password", project.findProperty("mail.password") ?: ""
+}
+
 tasks.withType(JavaCompile).configureEach {
     options.encoding = 'UTF-8'
 }
-
